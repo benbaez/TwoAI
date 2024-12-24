@@ -25,7 +25,8 @@ class TWOAI:
             extra_stops: list[str] = [],
             exit_word: str = "<DONE!>",
             temperature: int = 0.7,
-            max_exit_words: int = 2
+            max_exit_words: int = 2,
+            num_gpu: int = 1
         ) -> None:
         self.agent_details = agent_details
         self.model = model
