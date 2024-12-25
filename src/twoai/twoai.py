@@ -7,7 +7,7 @@ class TWOAI:
     Class representing an AI that can engage in a conversation with another AI.
     
         ai_details (AIDetails): Details of the AI including name and objective.
-        model (str): The model used by the AI.
+        model_global (str): The global model used by the AI.
         system_prompt (str): The prompt for the AI conversation system.
         max_tokens (int): The maximum number of tokens to generate in the AI response.
         num_context (int): The number of previous messages to consider in the AI response.
@@ -17,7 +17,7 @@ class TWOAI:
     """
     def __init__(
             self, 
-            model: str, 
+            model_global: str,
             agent_details: AgentDetails, 
             system_prompt: str, 
             max_tokens: int=4094, 
@@ -29,7 +29,7 @@ class TWOAI:
             num_gpu: int = 1
         ) -> None:
         self.agent_details = agent_details
-        self.model = model
+        self.model_global = model_global
         self.system_prompt = system_prompt
         self.max_tokens = max_tokens
         self.num_context = num_context
@@ -78,7 +78,7 @@ class TWOAI:
         {self.messages}
         """
 
-        current_model = self.model
+        current_model = self.current_agent['model']
         if model := self.current_agent.get('model', None):
             current_model = model
 
@@ -88,7 +88,7 @@ class TWOAI:
 
         if show_output:
             self.__hide_cursor()
-            print(Fore.YELLOW + f"{self.current_agent['name']} is thinking..." + Style.RESET_ALL, end='\r')
+            print(Fore.YELLOW + f"{self.current_agent['name']} {self.current_agent['model']} is thinking..." + Style.RESET_ALL, end='\r')
         
         ollama = Client(host=current_host)
         resp = ollama.generate(
